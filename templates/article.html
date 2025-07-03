@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} - Bangladesh Sylheti News Scraper{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <!-- Article Header -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-primary">{{ article.source }}</span>
+                        <div class="text-muted">
+                            <small>
+                                {% if article.published_date %}
+                                    Published: {{ article.published_date.strftime('%B %d, %Y at %I:%M %p') }}
+                                {% endif %}
+                                {% if article.scraped_date %}
+                                    <br>Scraped: {{ article.scraped_date.strftime('%B %d, %Y at %I:%M %p') }}
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <h1 class="mb-3">{{ article.title }}</h1>
+                    
+                    {% if article.author %}
+                        <p class="text-muted mb-3">
+                            <i data-feather="user"></i>
+                            By {{ article.author }}
+                        </p>
+                    {% endif %}
+                    
+                    {% if article.category %}
+                        <p class="text-muted mb-3">
+                            <i data-feather="tag"></i>
+                            Category: {{ article.category }}
+                        </p>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <a href="{{ article.url }}" target="_blank" class="btn btn-outline-primary">
+                            <i data-feather="external-link"></i>
+                            View Original Article
+                        </a>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                            <i data-feather="arrow-left"></i>
+                            Back to News
+                        </a>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <!-- Article Content -->
+                <div class="article-content">
+                    {% if article.content %}
+                        <div class="content-text">
+                            {{ article.content | replace('\n', '<br>') | safe }}
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted py-4">
+                            <i data-feather="file-text" class="mb-2" style="width: 48px; height: 48px;"></i>
+                            <p>Article content not available. Please visit the original article.</p>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <hr>
+                
+                <!-- Article Footer -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted">
+                            Article ID: {{ article.id }}
+                        </small>
+                    </div>
+                    <div>
+                        <a href="{{ article.url }}" target="_blank" class="btn btn-sm btn-primary">
+                            <i data-feather="external-link"></i>
+                            Read Full Article
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Bangladesh Sylheti News Scraper{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3">
+                <i data-feather="newspaper"></i>
+                Latest Sylheti News
+            </h1>
+            <div class="text-muted">
+                <small>Total Articles: {{ total_articles }}</small>
+            </div>
+        </div>
+        
+        <!-- Filters -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('index') }}">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="search" 
+                                   value="{{ search }}" placeholder="Search articles...">
+                        </div>
+                        <div class="col-md-3">
+                            <select name="source" class="form-select">
+                                <option value="">All Sources</option>
+                                {% for source in sources %}
+                                    <option value="{{ source }}" {% if source == selected_source %}selected{% endif %}>
+                                        {{ source }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="category" class="form-select">
+                                <option value="">All Categories</option>
+                                {% for category in categories %}
+                                    <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>
+                                        {{ category }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i data-feather="filter"></i>
+                                Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Articles -->
+        {% if articles.items %}
+            <div class="row">
+                {% for article in articles.items %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <span class="badge bg-primary">{{ article.source }}</span>
+                                    <small class="text-muted">
+                                        {% if article.published_date %}
+                                            {{ article.published_date.strftime('%B %d, %Y') }}
+                                        {% else %}
+                                            {{ article.scraped_date.strftime('%B %d, %Y') }}
+                                        {% endif %}
+                                    </small>
+                                </div>
+                                
+                                <h5 class="card-title">
+                                    <a href="{{ url_for('article_detail', article_id=article.id) }}" 
+                                       class="text-decoration-none">
+                                        {{ article.title }}
+                                    </a>
+                                </h5>
+                                
+                                {% if article.author %}
+                                    <p class="text-muted mb-2">
+                                        <i data-feather="user"></i>
+                                        By {{ article.author }}
+                                    </p>
+                                {% endif %}
+                                
+                                {% if article.summary %}
+                                    <p class="card-text">{{ article.summary }}</p>
+                                {% endif %}
+                                
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="{{ url_for('article_detail', article_id=article.id) }}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        Read More
+                                    </a>
+                                    <a href="{{ article.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                        <i data-feather="external-link"></i>
+                                        Original
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if articles.pages > 1 %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if articles.has_prev %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('index', page=articles.prev_num, search=search, source=selected_source, category=selected_category) }}">
+                                    <i data-feather="chevron-left"></i>
+                                    Previous
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for page_num in articles.iter_pages() %}
+                            {% if page_num %}
+                                {% if page_num != articles.page %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('index', page=page_num, search=search, source=selected_source, category=selected_category) }}">
+                                            {{ page_num }}
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ page_num }}</span>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if articles.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('index', page=articles.next_num, search=search, source=selected_source, category=selected_category) }}">
+                                    Next
+                                    <i data-feather="chevron-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-5">
+                <i data-feather="inbox" class="text-muted mb-3" style="width: 48px; height: 48px;"></i>
+                <h4 class="text-muted">No articles found</h4>
+                <p class="text-muted">Try adjusting your search filters or run the scraper to fetch new articles.</p>
+                <a href="{{ url_for('manual_scrape') }}" class="btn btn-primary">
+                    <i data-feather="refresh-cw"></i>
+                    Scrape Now
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Recent Scraping Activity -->
+{% if recent_scrapes %}
+    <div class="row mt-5">
+        <div class="col-lg-12">
+            <h4 class="mb-3">
+                <i data-feather="activity"></i>
+                Recent Scraping Activity
+            </h4>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Source</th>
+                                    <th>Date</th>
+                                    <th>Found</th>
+                                    <th>Saved</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in recent_scrapes %}
+                                    <tr>
+                                        <td>{{ log.source }}</td>
+                                        <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>{{ log.articles_found }}</td>
+                                        <td>{{ log.articles_saved }}</td>
+                                        <td>
+                                            {% if log.success %}
+                                                <span class="badge bg-success">Success</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Error</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
