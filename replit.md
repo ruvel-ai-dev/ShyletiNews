@@ -102,6 +102,13 @@ This is a Flask-based web application that scrapes news articles from various so
 
 ## Changelog
 
+- July 03, 2025. Enhanced news scraper with:
+  - Added 3 new major news sources (The Daily Star, bdnews24.com, Dhaka Tribune)
+  - Added image extraction and display for articles
+  - Improved automatic category detection (Politics, Business, Sports, etc.)
+  - Made user interface more friendly with simple language
+  - Added category badges and better visual design
+  - Enhanced article cards with images and improved layout
 - July 03, 2025. Initial setup
 
 ## User Preferences

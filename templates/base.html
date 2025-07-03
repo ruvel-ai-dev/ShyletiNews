@@ -22,7 +22,7 @@
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('index') }}">
                 <i data-feather="globe"></i>
-                Sylheti News
+                Bangladesh News
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -34,19 +34,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('index') }}">
                             <i data-feather="home"></i>
-                            Home
+                            Latest News
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('export_page') }}">
                             <i data-feather="download"></i>
-                            Export
+                            Download News
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('stats') }}">
                             <i data-feather="bar-chart-2"></i>
-                            Statistics
+                            News Stats
                         </a>
                     </li>
                 </ul>
@@ -60,7 +60,7 @@
                 
                 <a href="{{ url_for('manual_scrape') }}" class="btn btn-success">
                     <i data-feather="refresh-cw"></i>
-                    Scrape Now
+                    Get Latest News
                 </a>
             </div>
         </div>
@@ -90,12 +90,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5>Bangladesh Sylheti News Scraper</h5>
-                    <p class="text-muted">Aggregating news from major Sylheti news sources</p>
+                    <h5>Bangladesh News Reader</h5>
+                    <p class="text-muted">Your easy way to read Bangladesh news from multiple sources in one place</p>
                 </div>
                 <div class="col-md-6">
                     <h6>News Sources</h6>
                     <ul class="list-unstyled text-muted">
+                        <li>• The Daily Star</li>
+                        <li>• bdnews24.com</li>
+                        <li>• Dhaka Tribune</li>
                         <li>• Sylhet Today 24</li>
                         <li>• Daily Sylhet</li>
                         <li>• Sylhet Protikhon</li>

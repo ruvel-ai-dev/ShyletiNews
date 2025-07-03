@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - Bangladesh Sylheti News Scraper{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="text-center py-5">
+            <i data-feather="alert-triangle" class="text-warning mb-4" style="width: 72px; height: 72px;"></i>
+            <h1 class="display-4 text-muted">500</h1>
+            <h2 class="mb-4">Something Went Wrong</h2>
+            <p class="lead text-muted mb-4">
+                We're having trouble loading this page. Please try again in a few moments.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">
+                    <i data-feather="home"></i>
+                    Go to Home
+                </a>
+                <button onclick="window.location.reload()" class="btn btn-outline-secondary">
+                    <i data-feather="refresh-cw"></i>
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

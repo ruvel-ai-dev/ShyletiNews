@@ -13,6 +13,7 @@ class Article(db.Model):
     scraped_date = db.Column(DateTime, default=datetime.utcnow)
     author = db.Column(String(200), nullable=True)
     category = db.Column(String(100), nullable=True)
+    image_url = db.Column(String(1000), nullable=True)
     is_active = db.Column(Boolean, default=True)
 
     def __repr__(self):
@@ -30,6 +31,7 @@ class Article(db.Model):
             'scraped_date': self.scraped_date.isoformat() if self.scraped_date else None,
             'author': self.author,
             'category': self.category,
+            'image_url': self.image_url,
             'is_active': self.is_active
         }
 
