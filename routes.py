@@ -80,8 +80,10 @@ def manual_scrape():
         import threading
         def background_scrape():
             try:
-                found, saved, errors = run_all_scrapers()
-                logger.info(f"Background scraping completed: {found} found, {saved} saved, errors: {errors}")
+                from app import app
+                with app.app_context():
+                    found, saved, errors = run_all_scrapers()
+                    logger.info(f"Background scraping completed: {found} found, {saved} saved, errors: {errors}")
             except Exception as e:
                 logger.error(f"Background scraping error: {str(e)}")
         
