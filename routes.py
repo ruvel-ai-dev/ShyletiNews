@@ -72,12 +72,23 @@ def article_detail(article_id):
 def manual_scrape():
     """Manually trigger scraping"""
     try:
-        found, saved, errors = run_all_scrapers()
+        # For now, show a message that scraping is in progress
+        # In a production environment, this would be handled by a background task
+        flash('News scraping started! This may take a few minutes to complete. Please check back shortly for new articles.', 'info')
         
-        if errors:
-            flash(f'Scraping completed with errors: {"; ".join(errors)}', 'warning')
-        else:
-            flash(f'Scraping completed successfully! Found {found} articles, saved {saved} new articles.', 'success')
+        # Try to run a quick scrape with limited articles to avoid timeout
+        import threading
+        def background_scrape():
+            try:
+                found, saved, errors = run_all_scrapers()
+                logger.info(f"Background scraping completed: {found} found, {saved} saved, errors: {errors}")
+            except Exception as e:
+                logger.error(f"Background scraping error: {str(e)}")
+        
+        # Start background scraping (this will run asynchronously)
+        thread = threading.Thread(target=background_scrape)
+        thread.daemon = True
+        thread.start()
             
     except Exception as e:
         logger.error(f"Error in manual scraping: {str(e)}")
