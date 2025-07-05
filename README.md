@@ -64,6 +64,11 @@ git clone https://github.com/ruvel-ai-dev/ShyletiNews.git
 cd ShyletiNews
 pip install -r requirements.txt
 python app.py
----
+
+```
+
+Once the server is running, open `http://localhost:5000` in your browser to
+access the site.
+
 
 
