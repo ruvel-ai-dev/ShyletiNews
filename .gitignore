@@ -1,0 +1,30 @@
+# Ignore Python cache directories and compiled files
+__pycache__/
+*.py[cod]
+
+# Ignore testing and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ignore virtual environments
+.env/
+.venv/
+ENV/
+venv/
+
+# Ignore build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Ignore database and local instance files
+instance/news_scraper.db
+
+# Ignore logs
+*.log
+
+# macOS/Linux system files
+.DS_Store
+Thumbs.db
