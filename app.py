@@ -40,4 +40,6 @@ with app.app_context():
 import routes
 
 if __name__ == "__main__":
+    from scheduler import start_background_scheduler
+    start_background_scheduler()
     app.run(host="0.0.0.0", port=5000, debug=True)
