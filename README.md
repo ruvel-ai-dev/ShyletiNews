@@ -70,5 +70,10 @@ python app.py
 Once the server is running, open `http://localhost:5000` in your browser to
 access the site.
 
+The application stores its SQLite database in `instance/news_scraper.db` by
+default. Ensure the `instance` directory exists (it is created automatically
+when running the app) or adjust the location by setting the `DATABASE_URL`
+environment variable.
+
 
 

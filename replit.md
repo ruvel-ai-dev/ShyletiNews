@@ -79,6 +79,7 @@ This is a Flask-based web application that scrapes news articles from various so
 
 ### Infrastructure
 - SQLite: Default database (configurable to PostgreSQL)
+- Database file stored at `instance/news_scraper.db` by default
 - Environment variables for configuration
 - ProxyFix middleware for deployment behind proxies
 
